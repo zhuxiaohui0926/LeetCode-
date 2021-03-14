@@ -1,0 +1,33 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode removeDuplicateNodes(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+        Set<Integer> occurred = new HashSet<Integer>();
+        occurred.add(head.val);
+        ListNode pos = head;
+        // 枚举前驱节点
+        while (pos.next != null) {
+            // 当前待删除节点
+            ListNode cur = pos.next;
+	//HashSet中的add方法实际上是调用了Hashmap中的put方法，
+	//只是多了一个全局遍历p，用来判断是否有相同的元素存入，如果没有返回null，并返回判断是否等于null
+	//并成功添加元素，有则返回false
+            if (occurred.add(cur.val)) {
+                pos = pos.next;
+            } else {
+                pos.next = pos.next.next; //链表中的删除操作
+            }
+        }
+        pos.next = null;
+        return head;
+    }
+}
